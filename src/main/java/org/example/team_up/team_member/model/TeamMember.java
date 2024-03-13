@@ -1,6 +1,8 @@
 package org.example.team_up.team_member.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.example.team_up.team.model.Team;
 import org.example.team_up.user.model.User;
 
@@ -8,6 +10,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "tu_team_member")
+@AllArgsConstructor
+@NoArgsConstructor
 public class TeamMember {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

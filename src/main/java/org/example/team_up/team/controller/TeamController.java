@@ -1,9 +1,9 @@
 package org.example.team_up.team.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.team_up.team.dto.TeamDTO;
 import org.example.team_up.team.model.Team;
 import org.example.team_up.team.service.TeamService;
+import org.example.team_up.user.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +23,9 @@ public class TeamController {
     }
 
     @PostMapping()
-    @ResponseStatus()
+    @ResponseStatus(HttpStatus.CREATED)
     public List<Team> addTeam(@RequestBody Team team){
-        return service.addTeam();
+        return service.addTeam(team);
     }
 
     @DeleteMapping("/{id}")
@@ -33,4 +33,16 @@ public class TeamController {
     public void deleteGroup(@PathVariable UUID id){
         service.deleteGroup(id);
     }
+
+    @GetMapping("/selected")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Team> getFilteredTeams(@RequestParam String location, @RequestParam String category){
+        return service.getFilteredTeams(location, category);
+    }
+
+//    @PostMapping("/{id}")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public Team addUserToTeam(@RequestBody User user, @PathVariable UUID id){
+//        return service.addUserToTeam(id, user);
+//    }
 }

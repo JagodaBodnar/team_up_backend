@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.team_up.team_member.model.TeamMember;
 
 import java.util.List;
@@ -27,4 +28,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<TeamMember> teamMembers;
 
+    public User(Long id, String name, String contact) {
+        this.id =id;
+        this.name=name;
+        this.contact= contact;
+    }
 }
