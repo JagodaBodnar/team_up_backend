@@ -1,9 +1,9 @@
 package org.example.team_up.team.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.team_up.team.model.Team;
+import org.example.team_up.team.dto.TeamDTO;
+import org.example.team_up.team.dto.TeamRequestDTO;
 import org.example.team_up.team.service.TeamService;
-import org.example.team_up.user.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,33 +16,35 @@ import java.util.UUID;
 public class TeamController {
     private final TeamService service;
 
-    @GetMapping()
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Team> getTeams(){
-        return service.getTeams();
+    public List<TeamDTO> getFilteredTeams(@RequestParam(required = false) String location, @RequestParam(required = false) String category) {
+        return service.getFilteredTeams(location, category);
     }
 
-    @PostMapping()
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public List<Team> addTeam(@RequestBody Team team){
+    public List<TeamDTO> addTeam(@RequestBody TeamRequestDTO team){
         return service.addTeam(team);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteGroup(@PathVariable UUID id){
-        service.deleteGroup(id);
+    public List<TeamDTO> deleteTeam(@PathVariable UUID id) {
+        return service.deleteTeam(id);
     }
 
-    @GetMapping("/selected")
+
+    @DeleteMapping("/{teamId}/leaveTeam/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Team> getFilteredTeams(@RequestParam String location, @RequestParam String category){
-        return service.getFilteredTeams(location, category);
+    public List<TeamDTO> deleteUserFromGroup(@PathVariable UUID userId, @PathVariable UUID teamId){
+       return service.deleteUserFromGroup(teamId, userId);
     }
 
-//    @PostMapping("/{id}")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public Team addUserToTeam(@RequestBody User user, @PathVariable UUID id){
-//        return service.addUserToTeam(id, user);
-//    }
+    @PostMapping("/{teamId}/joinTeam/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TeamDTO> addUserToTeam(@PathVariable UUID userId, @PathVariable UUID teamId){
+        return service.addUserToTeam(teamId, userId);
+    }
+
 }

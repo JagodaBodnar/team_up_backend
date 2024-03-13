@@ -2,10 +2,14 @@ package org.example.team_up.team.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.team_up.team_member.model.TeamMember;
+//import org.example.team_up.team_member.model.TeamMember;
+import org.example.team_up.user.exceptions.UserNotFoundException;
+import org.example.team_up.user.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Team {
     @Id
     @GeneratedValue(strategy =  GenerationType.UUID)
@@ -27,19 +32,25 @@ public class Team {
     @Column
     private String dateTime;
     @Column
-    private Long createdBy;
+    private UUID createdBy;
 
-    @OneToMany(mappedBy = "team")
-    private List<TeamMember> teamMembersList;
+//    @OneToMany(mappedBy = "team")
+//    private List<TeamMember> teamMembersList = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<User> userList = new ArrayList<>();
+    public Team(int maxSpots, String category, String location, String dateTime, UUID createdBy) {
+        this.maxSpots = maxSpots;
+        this.category = category;
+        this.location = location;
+        this.dateTime = dateTime;
+        this.createdBy = createdBy;
+    }
+    public void addUser(User user){
+        this.userList.stream().filter(element-> element.getId().equals(user.getId())).findAny().orElseThrow(()-> new UserNotFoundException("User already on that list"));
+        this.userList.add(user);
+    }
+    public void removeUser(User user){
+        this.userList.remove(user);
+    }
 
-    @Transient
-    private int availableSpots;
-    public int getAvailableSpots(){
-        return this.maxSpots - this.teamMembersList.size();
-    }
-    @Transient
-    private int bookedSpots;
-    public int getBookedSpots(){
-        return this.teamMembersList.size();
-    }
 }

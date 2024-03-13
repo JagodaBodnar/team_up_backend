@@ -7,5 +7,5 @@
 -- insert into tu_user values (nextval('tu_user_seq'), '+46 654 230 453', 'Natalie Kerstin');
 -- insert into tu_user values (nextval('tu_user_seq'), '+46 827 375 284', 'Edith Torborg');
 
-insert into tu_team values ('e38b9008-3168-4ef7-b511-a6d30dbf2869', 'Volleyball', 1, '03/04/2024 17:00', 'Stockholm Sport Center', 12);
-insert into tu_team values ('e3048b37d-b687-4818-8c5a-180e2eadec89', 'Volleyball', 1, '03/04/2024 17:00', 'Stockholm Sport Center', 12);
+insert into tu_team values ('e38b9008-3168-4ef7-b511-a6d30dbf2869', 'Volleyball', null, '03/04/2024 17:00', 'Stockholm Sport Center', 12);
+insert into tu_team values ('1ba0d20c-5e69-4ba3-866a-50cf5a4d434c', 'Volleyball', null, '03/04/2024 17:00', 'Stockholm Sport Center', 12);
