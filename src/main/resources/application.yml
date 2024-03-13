@@ -1,0 +1,20 @@
+server:
+  port: 8080
+spring:
+  flyway:
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/teamup
+    username: teamUp
+    password: secret
+    driver-class-name: org.postgresql.Driver
+logging:
+  level:
+    org:
+      springframework:
+        boot:
+          autoconfigure: ERROR
+
