@@ -9,3 +9,4 @@ import java.util.UUID;
 public interface TeamRepository extends JpaRepository<Team, UUID> {
 //    List<Team> findAllByLocationContainingIgnoreCaseAndCategory(String location,String category);
 }
+

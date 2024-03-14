@@ -25,8 +25,14 @@ public class TeamController {
 
     @GetMapping("/createdTeams/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<TeamDTO> getFilteredTeams(@PathVariable UUID userId) {
+    public List<TeamDTO> getCreatedTeams(@PathVariable UUID userId) {
         return service.getCreatedTeams(userId);
+    }
+
+    @GetMapping("/joinedTeams/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TeamDTO> getJoinedTeams(@PathVariable UUID userId) {
+        return service.getJoinedTeams(userId);
     }
 
     @PostMapping
@@ -52,5 +58,11 @@ public class TeamController {
     @ResponseStatus(HttpStatus.OK)
     public List<TeamDTO> joinTeam(@PathVariable UUID userId, @PathVariable UUID teamId){
         return service.joinTeam(teamId, userId);
+    }
+
+    @DeleteMapping("/{teamId}/joined/leaveTeam/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TeamDTO> leaveTeamFromJoined(@PathVariable UUID userId, @PathVariable UUID teamId){
+        return service.leaveTeamFromJoined(teamId, userId);
     }
 }
