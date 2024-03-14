@@ -43,7 +43,7 @@ public class Team {
         this.createdBy = createdBy;
     }
     public void addUser(User user){
-        if(this.userList.stream().filter(element -> element.getId().equals(user.getId())).toList().size() > 0){
+        if(!this.userList.stream().filter(element -> element.getId().equals(user.getId())).toList().isEmpty()){
             throw new UserAlreadyOnTheListException("User already exists on the list.");
         }
         this.userList.add(user);
