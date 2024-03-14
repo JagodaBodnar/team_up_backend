@@ -7,6 +7,7 @@ import org.example.team_up.team.service.TeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,6 +23,9 @@ public class TeamController {
     public List<TeamDTO> getFilteredTeams(@RequestParam(required = false) String location, @RequestParam(required = false) String category) {
         return service.getFilteredTeams(location, category);
     }
+//    @GetMapping("/sorted")
+//    @ResponseStatus(HttpStatus.OK)
+//    public Pageable<TeamDTO> get
 
     @GetMapping("/createdTeams/{userId}")
     @ResponseStatus(HttpStatus.OK)
