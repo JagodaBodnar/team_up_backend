@@ -13,6 +13,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/teams")
+@CrossOrigin
 public class TeamController {
     private final TeamService service;
 
@@ -22,29 +23,34 @@ public class TeamController {
         return service.getFilteredTeams(location, category);
     }
 
+    @GetMapping("/createdTeams/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TeamDTO> getFilteredTeams(@PathVariable UUID userId) {
+        return service.getCreatedTeams(userId);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public List<TeamDTO> addTeam(@RequestBody TeamRequestDTO team){
         return service.addTeam(team);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{teamId}/deleteTeam/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<TeamDTO> deleteTeam(@PathVariable UUID id) {
-        return service.deleteTeam(id);
+    public List<TeamDTO> deleteTeam(@PathVariable UUID teamId, @PathVariable UUID userId) {
+        return service.deleteTeam(teamId, userId);
     }
 
 
     @DeleteMapping("/{teamId}/leaveTeam/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<TeamDTO> deleteUserFromGroup(@PathVariable UUID userId, @PathVariable UUID teamId){
-       return service.deleteUserFromGroup(teamId, userId);
+    public List<TeamDTO> leaveTeam(@PathVariable UUID userId, @PathVariable UUID teamId){
+       return service.leaveTeam(teamId, userId);
     }
 
     @PostMapping("/{teamId}/joinTeam/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<TeamDTO> addUserToTeam(@PathVariable UUID userId, @PathVariable UUID teamId){
-        return service.addUserToTeam(teamId, userId);
+    public List<TeamDTO> joinTeam(@PathVariable UUID userId, @PathVariable UUID teamId){
+        return service.joinTeam(teamId, userId);
     }
-
 }

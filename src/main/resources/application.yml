@@ -4,14 +4,16 @@ spring:
   flyway:
     enabled: false
 #    locations: classpath:db/migration
-  jpa:
-    hibernate:
-      ddl-auto: update
   datasource:
     url: jdbc:postgresql://localhost:5432/teamup
     username: teamUp
     password: secret
     driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    show-sql: true
 logging:
   level:
     org:

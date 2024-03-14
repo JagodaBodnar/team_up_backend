@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 //import org.example.team_up.team_member.model.TeamMember;
+import org.example.team_up.team.exceptions.UserAlreadyOnTheListException;
 import org.example.team_up.user.exceptions.UserNotFoundException;
 import org.example.team_up.user.model.User;
 
@@ -46,7 +47,9 @@ public class Team {
         this.createdBy = createdBy;
     }
     public void addUser(User user){
-        this.userList.stream().filter(element-> element.getId().equals(user.getId())).findAny().orElseThrow(()-> new UserNotFoundException("User already on that list"));
+        if(this.userList.stream().filter(element -> element.getId().equals(user.getId())).toList().size() > 0){
+            throw new UserAlreadyOnTheListException("User already exists on the list.");
+        }
         this.userList.add(user);
     }
     public void removeUser(User user){

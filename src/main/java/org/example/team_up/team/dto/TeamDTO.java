@@ -15,6 +15,7 @@ public record TeamDTO(UUID id,
                       int availableSpots,
                       int bookedSpots,
                       List<User> userList,
+                      UUID createdBy,
 
                       int maxSpots) {
 
@@ -27,6 +28,7 @@ public record TeamDTO(UUID id,
                 .id(team.getId())
                 .availableSpots(team.getMaxSpots() - team.getUserList().size())
                 .userList(team.getUserList())
+                .createdBy(team.getCreatedBy())
                 .bookedSpots(team.getUserList().size()).build();
     }
 }

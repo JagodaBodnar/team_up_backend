@@ -27,28 +27,29 @@ public class TeamService {
         return repository.findAll().stream().map(TeamDTO::of).toList();
     }
 
-    public List<TeamDTO> deleteTeam(UUID id) {
+    public List<TeamDTO> deleteTeam(UUID id, UUID userId) {
         Team teamToDelete = repository.findById(id).orElseThrow(() -> new TeamNotFoundException("Team was not found."));
         repository.delete(teamToDelete);
-        return getTeams();
+        return getCreatedTeams(userId);
     }
 
     public List<TeamDTO> addTeam(TeamRequestDTO teamDTO) {
         Team team = new Team(teamDTO.maxSpots(), teamDTO.category(), teamDTO.location(), teamDTO.dateTime(), teamDTO.createdBy());
-//        team.addMember();
+        User user = userRepository.findById(teamDTO.createdBy()).orElseThrow(()-> new UserNotFoundException("User not found."));
+        team.addUser(user);
         repository.save(team);
-        return getTeams();
+        return getCreatedTeams(teamDTO.createdBy());
     }
 
     public List<TeamDTO> getFilteredTeams(String location, String category) {
 
         return getTeams().stream()
-                .filter(element -> element.location().contains(ofNullable(location).orElse("")) && element.category().contains(ofNullable(category).orElse(""))).toList();
+                .filter(element -> element.location().contains(ofNullable(location).orElse("")) && element.category().toLowerCase().contains(ofNullable(category).orElse(""))).toList();
 //        return repository.findAllByLocationContainingIgnoreCaseAndCategory(location,category).stream().map(TeamDTO::of).toList();
 
     }
 
-    public List<TeamDTO> addUserToTeam(UUID teamId, UUID userId) {
+    public List<TeamDTO> joinTeam(UUID teamId, UUID userId) {
         Team findTeam = repository.findById(teamId).orElseThrow(() -> new TeamNotFoundException("Team was not found."));
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found."));
         findTeam.addUser(user);
@@ -56,11 +57,15 @@ public class TeamService {
         return getTeams();
     }
 
-    public List<TeamDTO> deleteUserFromGroup(UUID teamId, UUID userId) {
+    public List<TeamDTO> leaveTeam(UUID teamId, UUID userId) {
         Team findTeam = repository.findById(teamId).orElseThrow(() -> new TeamNotFoundException("Team was not found."));
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found."));
         findTeam.removeUser(user);
         repository.save(findTeam);
         return getTeams();
+    }
+
+    public List<TeamDTO> getCreatedTeams(UUID userId) {
+       return getTeams().stream().filter(element-> element.createdBy().equals(userId)).toList();
     }
 }
