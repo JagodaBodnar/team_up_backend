@@ -1,11 +1,18 @@
-FROM ubuntu:latest AS build
-RUN apt get update
-RUN apt-get install openjdk-21-jdk -y
-COPY . .
-RUN mvn install
+#
+# Build stage
+#
+FROM eclipse-temurin:21-jdk-jammy AS build
+ENV HOME=/usr/app
+RUN mkdir -p $HOME
+WORKDIR $HOME
+ADD . $HOME
+RUN ./mvnw -f $HOME/pom.xml clean package
 
-FROM openjdk:21-jdk-slim
+#
+# Package stage
+#
+FROM eclipse-temurin:21-jre-jammy
+ARG JAR_FILE=/usr/app/target/*.jar
+COPY --from=build $JAR_FILE /app/runner.jar
 EXPOSE 8080
-COPY --from=build /build/libs/team_up-0.0.1-SNAPSHOT.jar app.jar
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT java -jar /app/runner.jar
