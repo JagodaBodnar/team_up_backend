@@ -5,9 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-//import org.example.team_up.team_member.model.TeamMember;
 import org.example.team_up.team.exceptions.UserAlreadyOnTheListException;
-import org.example.team_up.user.exceptions.UserNotFoundException;
 import org.example.team_up.user.model.User;
 
 import java.util.ArrayList;
@@ -35,9 +33,7 @@ public class Team {
     @Column
     private UUID createdBy;
 
-//    @OneToMany(mappedBy = "team")
-//    private List<TeamMember> teamMembersList = new ArrayList<>();
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<User> userList = new ArrayList<>();
     public Team(int maxSpots, String category, String location, String dateTime, UUID createdBy) {
         this.maxSpots = maxSpots;

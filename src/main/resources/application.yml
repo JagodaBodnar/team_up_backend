@@ -1,9 +1,6 @@
 server:
   port: 8080
 spring:
-  flyway:
-    enabled: false
-#    locations: classpath:db/migration
   datasource:
     url: jdbc:postgresql://localhost:5432/teamup
     username: teamUp
@@ -12,8 +9,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     defer-datasource-initialization: true
     show-sql: true
+  sql:
+    init:
+      mode: always
 logging:
   level:
     org:

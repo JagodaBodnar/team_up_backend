@@ -47,7 +47,6 @@ public class TeamController {
         return service.deleteTeam(teamId, userId);
     }
 
-
     @DeleteMapping("/{teamId}/leaveTeam/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public List<TeamDTO> leaveTeam(@PathVariable UUID userId, @PathVariable UUID teamId){

@@ -27,9 +27,7 @@ public class User {
 
     @Column(nullable = false)
     private String contact;
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<TeamMember> teamMembers;
+    //TODO cascade
     @ManyToMany(mappedBy = "userList", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Team> teamList;

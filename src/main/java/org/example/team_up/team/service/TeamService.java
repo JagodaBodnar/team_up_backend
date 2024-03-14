@@ -79,6 +79,11 @@ public class TeamService {
     }
 
     public List<TeamDTO> getJoinedTeams(UUID userId) {
-        return getTeams().stream().filter(element-> !element.userList().stream().filter(el -> el.getId().equals(userId)).toList().isEmpty()).toList();
+        return getTeams().stream().filter(element-> !element.createdBy().equals(userId))
+                .filter(element-> !element.userList().stream()
+                        .filter(el -> el.getId().equals(userId))
+                        .toList()
+                        .isEmpty())
+                .toList();
     }
 }
