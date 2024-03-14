@@ -5,7 +5,7 @@ FROM eclipse-temurin:21-jdk-jammy AS build
 ENV HOME=/usr/app
 RUN mkdir -p $HOME
 WORKDIR $HOME
-ADD . $HOME
+ADD main/java/org/example/team_up/team/controller $HOME
 RUN ./mvnw -f $HOME/pom.xml clean package
 
 #
